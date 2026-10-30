@@ -94,8 +94,8 @@ h1,h2,h3,h4 { line-height: 1.2; margin: 0; font-family: var(--serif); font-weigh
 .content { min-width: 0; }
 .mtop { display: none; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--head-bg); color: var(--head-ink); padding: 10px 16px; align-items:center; gap: 10px; }
 .mtop .logo { padding: 0; } .mtop .logo i { background: rgba(255,255,255,.14); } .mtop .logo small { color: rgba(255,255,255,.7); }
-.mnav { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; background: var(--surface); border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)); justify-content: space-around; }
-.mnav .nav { flex-direction: column; gap: 2px; padding: 6px 2px; font-size: .66rem; width: auto; flex: 1 1 0; text-align:center; border-radius: 8px; }
+.mnav { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; background: var(--surface); border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)); justify-content: flex-start; overflow-x: auto; }
+.mnav .nav { flex-direction: column; gap: 2px; padding: 6px 2px; font-size: .66rem; width: auto; flex: 1 0 68px; text-align:center; border-radius: 8px; }
 main { max-width: 1120px; margin: 0 auto; padding: 28px 28px 64px; }
 @media (max-width: 899px) {
   .shell { display: block; } .side { display: none; } .mtop, .mnav { display: flex; }
@@ -335,6 +335,7 @@ svg text { font-family: var(--mono); fill: var(--muted); font-size: 11px; }
 .sponsor .sp-chip { flex: none; min-width: 84px; text-align: center; padding: 3px 9px; border-radius: 999px; font-family: var(--mono); font-size: .66rem; font-weight: 700; letter-spacing: .06em; background: #5E2626; color: #FBF6EC; }
 .sponsor .sp-perk:nth-child(2) .sp-chip { background: #3B4D61; }
 .sponsor .sp-foot { display: flex; flex-wrap: wrap; gap: 4px 14px; align-items: baseline; }
+.sp-handle, .foot-note a { color: var(--brand); text-decoration: underline; text-underline-offset: 2px; }
 .sponsor a.sp-handle { color: #5E2626; font-weight: 600; font-size: .86rem; text-decoration: underline; text-underline-offset: 2px; }
 .sponsor a.sp-handle:hover { color: #3B4D61; }
 .sponsor .sp-note { font-size: .74rem; color: #8B5A2B; }
@@ -359,7 +360,7 @@ svg text { font-family: var(--mono); fill: var(--muted); font-size: 11px; }
   <div class="content">
     <header class="mtop"><div class="logo"><i>W</i><div><b>WMSUCET Prep</b><small>Reviewer &amp; tracker</small></div></div></header>
     <main id="app" aria-live="polite"></main>
-    <footer class="foot-note">Unofficial practice tool · not affiliated with WMSU · your progress is saved in this browser only</footer>
+    <footer class="foot-note">Unofficial practice tool · not affiliated with WMSU · best used in Google Chrome · your progress is saved in this browser only</footer>
   </div>
 </div>
 <nav class="mnav" id="mnav" aria-label="Main"></nav>
@@ -4215,7 +4216,7 @@ function mockPlan() {
   const f = FORMATS[ui.mock.format].f, list = SECTIONS.concat(ui.mock.gi ? [GI_SEC] : []);
   return list.map(sec => Object.assign({}, sec, { n: Math.max(1, Math.round(sec.n * f)), min: Math.max(1, Math.round(sec.min * f)) }));
 }
-const ui = { ph: { format: 'half', enforce: false }, coachOpen: {}, idxSubj: 'math', sheetMode: 'sections', open: {}, step: {}, view: 'home', topicId: null, attemptId: null, back: null, filter: 'wrong', query: '', modal: null,
+const ui = { guideOpen: {}, ph: { format: 'half', enforce: false }, coachOpen: {}, idxSubj: 'math', sheetMode: 'sections', open: {}, step: {}, view: 'home', topicId: null, attemptId: null, back: null, filter: 'wrong', query: '', modal: null,
   mock: { format: 'half', enforce: false, gi: false }, prac: { subject: '', topic: '', n: 10, timed: false, mins: 30 }, hist: { kind: 'all', subj: 'all' }, an: { range: 20 } };
 
 /* ───────── derived stats ───────── */
@@ -4389,9 +4390,9 @@ function heatmap() {
 }
 
 /* ───────── render ───────── */
-const NAV = [['home', 'Dashboard', 'dash'], ['review', 'Cheat Sheets', 'book'], ['mock', 'Mock Exams', 'timer'], ['practice', 'Practice', 'list'], ['history', 'History', 'history'], ['analytics', 'Analytics', 'chart'], ['coach', 'Coach', 'coach'], ['philsca', 'PhilSCAAT', 'plane']];
+const NAV = [['home', 'Dashboard', 'dash'], ['review', 'Cheat Sheets', 'book'], ['mock', 'Mock Exams', 'timer'], ['practice', 'Practice', 'list'], ['history', 'History', 'history'], ['analytics', 'Analytics', 'chart'], ['coach', 'Coach', 'coach'], ['philsca', 'PhilSCAAT', 'plane'], ['guide', 'How to use', 'info']];
 function activeTab() {
-  const m = { home: 'home', review: 'review', topic: 'review', mock: 'mock', practice: 'practice', history: 'history', results: 'history', analytics: 'analytics', coach: 'coach', philsca: 'philsca' };
+  const m = { home: 'home', review: 'review', topic: 'review', mock: 'mock', practice: 'practice', history: 'history', results: 'history', analytics: 'analytics', coach: 'coach', philsca: 'philsca', guide: 'guide' };
   if (ui.view === 'exam') return store.session && store.session.exam === 'philsca' ? 'philsca' : store.session && store.session.kind === 'mock' ? 'mock' : 'practice';
   return m[ui.view];
 }
@@ -4399,9 +4400,10 @@ function render() {
   const act = activeTab();
   $('#side').innerHTML = '<div class="logo"><i>W</i><div><b>WMSUCET Prep</b><small>Reviewer &amp; tracker</small></div></div><div class="lab">Menu</div>' +
     NAV.map(([v, l, ic]) => '<button class="nav" data-a="nav" data-v="' + v + '"' + (act === v ? ' aria-current="page"' : '') + '>' + icon(ic) + '<span>' + l + '</span></button>').join('') +
-    '<div class="side-foot">' + sponsorSide() + '<div class="small muted">Progress is saved in this browser only.</div><button class="btn ghost sm" style="margin-top:8px" data-a="reset">Reset progress</button></div>';
+    '<div class="side-foot">' + sponsorSide() + '<div class="small muted">Progress is saved in this browser only.</div><div class="small" style="margin-top:6px">' + (contactLink('Suggestions? Message us', 'sp-handle') || '') + '</div><button class="btn ghost sm" style="margin-top:8px" data-a="reset">Reset progress</button></div>';
+  const fn = document.querySelector('.foot-note'); if (fn) fn.innerHTML = 'Unofficial practice tool · not affiliated with WMSU · best used in Google Chrome · your progress is saved in this browser only' + (contactLink('Suggestions or feedback? Message the Crema page', '') ? ' · ' + contactLink('Suggestions or feedback? Message the Crema page', '') : '');
   $('#mnav').innerHTML = NAV.map(([v, l, ic]) => '<button class="nav" data-a="nav" data-v="' + v + '"' + (act === v ? ' aria-current="page"' : '') + '>' + icon(ic) + '<span>' + l.replace('Cheat Sheets', 'Sheets').replace('Mock Exams', 'Mock').replace('Dashboard', 'Home') + '</span></button>').join('');
-  const views = { home: homeView, review: reviewView, topic: topicView, mock: mockView, practice: practiceView, exam: examView, results: resultsView, history: historyView, analytics: analyticsView, coach: coachView, philsca: philscaView };
+  const views = { home: homeView, review: reviewView, topic: topicView, mock: mockView, practice: practiceView, exam: examView, results: resultsView, history: historyView, analytics: analyticsView, coach: coachView, philsca: philscaView, guide: guideView };
   $('#app').innerHTML = (views[ui.view] || homeView)();
   if (ui.view === 'review') bindSearch();
   renderModal();
@@ -4443,6 +4445,7 @@ function homeView() {
   let h = pageHead('Dashboard', 'Welcome back');
   if (sess) h += '<div class="banner row between" style="margin-bottom:16px"><div><b>' + (sess.kind === 'mock' ? 'Mock exam' : 'Practice session') + ' in progress</b><div class="small muted">' + esc(sess.label) + ' · ' + Object.keys(sess.ans).length + '/' + sess.qids.length + ' answered · ' + fmtTime(sess.elapsed) + ' elapsed</div></div><button class="btn primary sm" data-a="resume">Resume</button></div>';
   h += '<div class="coach"><div class="row lab" style="color:var(--warn)">' + icon('info') + ' Study coach</div><p>' + esc(c.t) + '</p><button class="btn sm" ' + goAct + '>' + esc(c.go[0]) + ' ' + icon('arrow') + '</button> <button class="btn sm ghost" style="margin-left:6px" data-a="nav" data-v="coach">Open the full coach →</button></div>';
+  if (!store.guideSeen && !A.length) h += '<div class="banner row between" style="margin-bottom:16px"><div><b>New here?</b><div class="small muted">A one-minute guide shows how the app works and where to start.</div></div><div class="row"><button class="btn primary sm" data-a="open-guide">How to use the app</button><button class="btn ghost sm" data-a="guide-dismiss">Dismiss</button></div></div>';
   h += sponsorBanner('');
   h += '<div class="dgrid" style="margin-top:18px"><div class="stack">';
   h += '<div class="card"><h2>Exam readiness</h2><div class="lab" style="margin-top:2px">Target ' + store.target + '%</div><div class="ready"><div class="ring" style="--p:' + r + '"><div><b>' + r + '%</b><span>' + levelLabel(r) + '</span></div></div><div class="mbars">' +
@@ -4848,9 +4851,46 @@ function sponsorBanner(mode) {
     (SPONSOR.intro ? '<p class="sp-intro">' + esc(SPONSOR.intro) + '</p>' : '') + (perks ? '<div class="sp-perks">' + perks + '</div>' : '') +
     '<div class="sp-foot">' + ig + (SPONSOR.note ? '<span class="sp-note">' + esc(SPONSOR.note) + '</span>' : '') + '</div></div>' + cta + '</aside>';
 }
+function contactLink(label, cls) { return typeof SPONSOR !== 'undefined' && SPONSOR.url ? '<a class="' + (cls || '') + '" href="' + esc(SPONSOR.url) + '" target="_blank" rel="noopener noreferrer">' + label + '</a>' : ''; }
 function sponsorSide() {
   if (typeof SPONSOR === 'undefined') return '';
   return sponsorLink('<img src="' + SPONSOR.logo + '" alt="' + esc(SPONSOR.name) + ' logo"><div class="sp-lab">Sponsored</div><div class="sp-tag">' + esc(SPONSOR.tagline) + '</div>', 'sponsor-side');
+}
+
+/* ----- How to use ----- */
+function guideView() {
+  const go = (v, label) => '<button class="btn sm" data-a="nav" data-v="' + v + '">' + label + '</button>';
+  const sec = [
+    ['home', 'Dashboard', 'Your readiness score, subject bars, recent results and the next topics to focus on. Start here each day.'],
+    ['review', 'Cheat Sheets', 'Quick-review sheets by subject (Math, Science, English, Filipino, General Information, Reasoning). Use Step by step mode, then mark the sheet as reviewed.'],
+    ['mock', 'Mock Exams', 'Timed papers that follow the five CET parts: English & Filipino, Reading, Science Process Skills, Quantitative, and Abstract Thinking. Choose Mini, Half or Full.'],
+    ['practice', 'Practice', 'Pick a subject and topic, then 5 to 20 questions, untimed or timed. Best for fixing one weak area at a time.'],
+    ['history', 'History', 'Every session you have taken. Open one to review answers and explanations.'],
+    ['analytics', 'Analytics', 'Score trend, topic mastery, a 90-day activity map, and your editable target score.'],
+    ['coach', 'Coach', 'Reads your results, then gives a study plan, a 20-minute session for today, and study and exam techniques. Add your exam date for a plan that fits your days left.'],
+    ['philsca', 'PhilSCAAT', 'A separate section for the Philippine State College of Aeronautics Admission Test: its own mock exam and cheat sheets.']
+  ];
+  const faq = [
+    ['g-real', 'Is this the real exam?', 'No. It is an unofficial practice tool. The mock follows the five CET parts, but item counts and times are assumptions, so check the official announcement for the real format.'],
+    ['g-ready', 'What does “readiness” mean?', 'It averages your accuracy across Math, Science, English and Reasoning, using the topics you have practiced. Set your goal with the target score in Analytics. General Information, Filipino and PhilSCAAT results are not counted.'],
+    ['g-q', 'How are questions chosen?', 'Each mock or practice set is a new random draw. Questions you have not seen come first, and many math, science, reasoning and figure questions are generated fresh every time.'],
+    ['g-time', 'Why does the timer pause?', 'Elapsed time only counts while you are on the exam. If you switch tabs or leave, it pauses. You can resume an unfinished session from the Mock Exams or PhilSCAAT page.'],
+    ['g-limit', 'What does “enforce time limit” do?', 'It adds a countdown for the whole exam and submits automatically when time runs out. Leave it off for relaxed practice.'],
+    ['g-sheet', 'How do I get the most from a cheat sheet?', 'Read it once, close it, and write down what you remember. Then do 10 practice questions on the same topic. Rereading alone helps less than testing yourself.'],
+    ['g-chrome', 'Which browser should I use?', 'Google Chrome is recommended. Stay in the same Chrome profile on the same device so your saved progress is still there next time. Avoid private or incognito windows, because they do not keep progress.'],
+    ['g-pass', 'Can I use it on another phone or computer?', 'Yes, but progress does not move between devices. Each browser keeps its own history.']
+  ];
+  let h = pageHead('Guide', 'How to use the app', 'A one-minute guide. It is free, needs no account, and keeps your progress in this browser.');
+  h += '<div class="stack">';
+  h += '<div class="banner row" style="gap:12px"><div><b>Best used in Google Chrome.</b><div class="small muted">Open the app in Chrome on your phone or computer for the smoothest experience, including saved progress and the timer. Other browsers may work but are not tested.</div></div></div>';
+  h += '<div class="card"><h2>Quick start</h2><ol class="stepsol"><li><b>Find your baseline.</b> Go to Practice and try about 10 questions in each subject.</li><li><b>Learn.</b> Open Cheat Sheets, read a sheet in Step by step mode, then close it and recall what you can.</li><li><b>Practice.</b> Do topic sets and read the explanation for every miss. Use “Review” links to jump back to the sheet.</li><li><b>Test yourself.</b> Take a Mini, Half or Full mock under timed conditions.</li><li><b>Improve.</b> Check History, Analytics and Coach, then repeat with your weakest topics. Short sessions most days work best.</li></ol><div class="row"><button class="btn primary" data-a="nav" data-v="practice">Start with Practice</button><button class="btn" data-a="nav" data-v="review">Browse cheat sheets</button></div></div>';
+  h += '<div class="card"><h2>What each section does</h2>' + sec.map(x => '<div class="planday"><div class="grow"><b>' + x[1] + '</b><div class="small muted" style="margin-top:2px">' + x[2] + '</div></div>' + go(x[0], 'Open') + '</div>').join('') + '</div>';
+  h += '<div class="card"><h2>Taking an exam</h2><ul class="bul"><li>Choose an answer by tapping it, or press <b>A–E</b> or <b>1–5</b> on a keyboard. Use <b>←</b> and <b>→</b> to move between questions.</li><li>Use <b>Flag for review</b> on questions to revisit, and <b>Clear answer</b> to undo a choice. The numbered dots jump to any question.</li><li>You can leave and come back: unfinished sessions are saved and can be resumed or discarded.</li><li>Submit when done. Unanswered questions count as skipped.</li></ul></div>';
+  h += '<div class="card"><h2>Reading your results</h2><ul class="bul"><li>See your score, total time, average seconds per question, and a breakdown by subject (and by CET part for mocks).</li><li>Every question shows your answer, the correct answer and a short explanation, with a link to the matching cheat sheet.</li><li>Use <b>Retake missed questions</b> to practice only what you got wrong, ideally two or three days later.</li></ul></div>';
+  h += '<div class="card"><h2>Common questions</h2><div class="acc-list">' + faq.map(x => '<div class="acc' + (ui.guideOpen[x[0]] ? ' open' : '') + '"><button class="acc-h" data-a="guide-acc" data-k="' + x[0] + '" aria-expanded="' + !!ui.guideOpen[x[0]] + '"><span class="at">' + x[1] + '</span><span class="chev">›</span></button><div class="acc-b"><p>' + x[2] + '</p></div></div>').join('') + '</div></div>';
+  h += '<div class="card"><h2>Suggestions and contact</h2><p style="margin:6px 0 8px">Want to request a change, report a wrong answer, suggest a topic, or simply message the developer? Send a message to the Crema page on Instagram and mention <b>WMSUCET Prep</b> so it reaches the right person.</p><ul class="bul"><li>Report a question or answer that looks wrong, with the question text if you can.</li><li>Ask for a topic, a cheat sheet or a feature.</li><li>Tell us what worked for you.</li></ul>' + (typeof SPONSOR !== 'undefined' && SPONSOR.url ? '<div class="row" style="margin-top:12px">' + contactLink('Message Crema on Instagram →', 'btn primary') + '</div>' : '') + '</div>';
+  h += '<div class="card"><h2>Your data</h2><ul class="bul"><li>Progress is saved only in this browser on this device. There is no account and nothing is uploaded.</li><li>Clearing your browser data, or using a private window, erases it. “Reset progress” in the sidebar deletes it on purpose.</li><li>If you share the link, each person gets their own separate progress.</li></ul><div class="row" style="margin-top:12px"><button class="btn" data-a="nav" data-v="coach">Study and exam techniques in Coach</button></div></div>';
+  return h + '</div>';
 }
 
 /* ───────── events ───────── */
@@ -4871,6 +4911,9 @@ document.addEventListener('click', e => {
     case 'start-ph': startPh(); break;
     case 'ph-sheet': openTopic(d.id, { view: 'philsca' }); break;
     case 'back-philsca': go('philsca'); break;
+    case 'guide-acc': ui.guideOpen[d.k] = !ui.guideOpen[d.k]; render(); break;
+    case 'open-guide': store.guideSeen = true; save(); go('guide'); break;
+    case 'guide-dismiss': store.guideSeen = true; save(); render(); break;
     case 'idx-subj': ui.idxSubj = d.id; render(); break;
     case 'acc': { const t = SHEET[ui.topicId], o = openOf(t); o[d.i] = !o[d.i]; render(); break; }
     case 'acc-all': { const t = SHEET[ui.topicId], o = openOf(t), accs = t.blocks.map((b, i) => [b, i]).filter(x => isAcc(x[0])), all = accs.every(x => o[x[1]]); accs.forEach(x => { o[x[1]] = !all; }); render(); break; }
