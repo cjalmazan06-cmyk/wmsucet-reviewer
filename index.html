@@ -94,7 +94,7 @@ h1,h2,h3,h4 { line-height: 1.2; margin: 0; font-family: var(--serif); font-weigh
 .content { min-width: 0; }
 .mtop { display: none; position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; background: var(--head-bg); color: var(--head-ink); padding: 10px 16px; align-items:center; gap: 10px; }
 .mtop .logo { padding: 0; } .mtop .logo i { background: rgba(255,255,255,.14); } .mtop .logo small { color: rgba(255,255,255,.7); }
-.mnav { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; background: var(--surface); border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)); justify-content: flex-start; overflow-x: auto; }
+.mnav { display: none; position: fixed; left: 0; right: 0; bottom: 0; z-index: 35; background: var(--surface); border-top: 1px solid var(--line); padding: 4px 4px calc(4px + env(safe-area-inset-bottom, 0px)); justify-content: space-around; }
 .mnav .nav { flex-direction: column; gap: 2px; padding: 6px 2px; font-size: .66rem; width: auto; flex: 1 0 68px; text-align:center; border-radius: 8px; }
 main { max-width: 1120px; margin: 0 auto; padding: 28px 28px 64px; }
 @media (max-width: 899px) {
@@ -372,6 +372,30 @@ svg text { font-family: var(--mono); fill: var(--muted); font-size: 11px; }
   .sponsor:not(.line) .sp-logo img { height: 132px; }
   .sponsor .sp-foot a.sp-cta { width: auto; }
 }
+/* ── Mobile polish ── */
+button, a, .chip, .opt, .nav, .more-item { touch-action: manipulation; -webkit-tap-highlight-color: rgba(94,38,38,.12); }
+.coach .btn { margin: 8px 8px 0 0; }
+.sp-handle { display: inline-block; padding: 6px 0; }
+.modal.more { max-width: 460px; padding: 18px; }
+.more-list { display: grid; gap: 8px; margin: 6px 0 4px; }
+.more-item { display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); background: var(--surface2, var(--surface)); color: inherit; font: inherit; text-align: left; cursor: pointer; }
+.more-item svg { flex: none; width: 22px; height: 22px; }
+.more-item b { display: block; font-size: .98rem; } .more-item small { display: block; color: var(--muted); font-size: .8rem; margin-top: 1px; }
+.more-foot { display: flex; justify-content: space-between; align-items: center; gap: 10px; margin-top: 14px; flex-wrap: wrap; }
+@media (max-width: 760px) {
+  body .scrim { align-items: end; padding: 0; }
+  .scrim .modal { max-width: none; border-radius: 18px 18px 0 0; padding-bottom: calc(18px + env(safe-area-inset-bottom, 0px)); max-height: 88vh; overflow-y: auto; }
+  .chip, .seg button, .btn.sm, .fmt button { min-height: 40px; }
+  .chip { display: inline-flex; align-items: center; padding-left: 14px; padding-right: 14px; }
+  .btn.ghost.nm { padding: 11px 4px; min-height: 40px; }
+  .sheet-bar { flex-wrap: wrap; gap: 8px; }
+  .mrow { grid-template-columns: 1fr auto; gap: 4px 12px; } .mrow > span:first-child { grid-column: 1 / -1; }
+  .radar-card { display: none; }
+  .mnav .nav { flex: 1 1 0; min-width: 0; }
+  .foot-note { padding-bottom: 96px; }
+  .page-h h1 { overflow-wrap: anywhere; }
+}
+@media (pointer: coarse) { .btn.sm, .chip { min-height: 40px; } }
 /* ── Modal ── */
 .scrim { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 60; display:grid; place-items:center; padding: 20px; }
 .modal { background: var(--surface); border-radius: 16px; padding: 22px; max-width: 420px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
@@ -4223,7 +4247,7 @@ const IC = {
   list: '<path d="M4 6h16M4 12h16M4 18h10"/>',
   history: '<path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/><path d="M12 7v5l3 2"/>',
   chart: '<path d="M4 20V4"/><path d="M4 20h16"/><rect x="8" y="11" width="3" height="6"/><rect x="14" y="7" width="3" height="10"/>',
-  coach: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>', plane: '<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>', play: '<path d="M7 4l13 8-13 8z"/>', arrow: '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
+  coach: '<path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1V17h6v-.2c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2z"/>', plane: '<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4z"/>', menu: '<path d="M4 6h16M4 12h16M4 18h16"/>', play: '<path d="M7 4l13 8-13 8z"/>', arrow: '<path d="M5 12h14"/><path d="M13 6l6 6-6 6"/>', info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
   edit: '<path d="M4 20h4L19 9l-4-4L4 16z"/>', print: '<path d="M7 9V3h10v6"/><rect x="4" y="9" width="16" height="8" rx="2"/><path d="M7 14h10v7H7z"/>', chev: '<path d="M9 6l6 6-6 6"/>'
 };
 const icon = (n, cls) => '<svg class="ic ' + (cls || '') + '" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + IC[n] + '</svg>';
@@ -4446,7 +4470,8 @@ function render() {
     NAV.map(([v, l, ic]) => '<button class="nav" data-a="nav" data-v="' + v + '"' + (act === v ? ' aria-current="page"' : '') + '>' + icon(ic) + '<span>' + l + '</span></button>').join('') +
     '<div class="side-foot">' + sponsorSide() + '<div class="small muted">Progress is saved in this browser only.</div><div class="small" style="margin-top:6px">' + (contactLink('Suggestions? Message us', 'sp-handle') || '') + '</div><button class="btn ghost sm" style="margin-top:8px" data-a="reset">Reset progress</button></div>';
   const fn = document.querySelector('.foot-note'); if (fn) fn.innerHTML = 'Unofficial practice tool · not affiliated with WMSU · best used in Google Chrome · your progress is saved in this browser only' + (typeof PARTNERS !== 'undefined' && PARTNERS.length ? ' · co-delivered with the ' + PARTNERS.map(p => p.name).join(' and ') : '') + (contactLink('Suggestions or feedback? Message the Crema page', '') ? ' · ' + contactLink('Suggestions or feedback? Message the Crema page', '') : '');
-  $('#mnav').innerHTML = NAV.map(([v, l, ic]) => '<button class="nav" data-a="nav" data-v="' + v + '"' + (act === v ? ' aria-current="page"' : '') + '>' + icon(ic) + '<span>' + l.replace('Cheat Sheets', 'Sheets').replace('Mock Exams', 'Mock').replace('Dashboard', 'Home') + '</span></button>').join('');
+  const PRIMARY = ['home', 'review', 'mock', 'practice'], moreActive = !PRIMARY.includes(act);
+  $('#mnav').innerHTML = NAV.filter(n => PRIMARY.includes(n[0])).map(([v, l, ic]) => '<button class="nav" data-a="nav" data-v="' + v + '"' + (act === v ? ' aria-current="page"' : '') + '>' + icon(ic) + '<span>' + l.replace('Cheat Sheets', 'Sheets').replace('Mock Exams', 'Mock').replace('Dashboard', 'Home') + '</span></button>').join('') + '<button class="nav" data-a="more"' + (moreActive ? ' aria-current="page"' : '') + '>' + icon('menu') + '<span>More</span></button>';
   const views = { home: homeView, review: reviewView, topic: topicView, mock: mockView, practice: practiceView, exam: examView, results: resultsView, history: historyView, analytics: analyticsView, coach: coachView, philsca: philscaView, guide: guideView };
   $('#app').innerHTML = (views[ui.view] || homeView)();
   if (ui.view === 'review') bindSearch();
@@ -4455,7 +4480,7 @@ function render() {
 function renderModal() {
   const m = ui.modal, root = $('#modal-root');
   if (!m) { root.innerHTML = ''; return; }
-  root.innerHTML = '<div class="scrim" data-a="modal-close-bg"><div class="modal" role="dialog" aria-modal="true" aria-label="' + esc(m.title) + '"><h3>' + esc(m.title) + '</h3><div>' + m.body + '</div><div class="row">' +
+  root.innerHTML = '<div class="scrim" data-a="modal-close-bg"><div class="modal ' + (m.cls || '') + '" role="dialog" aria-modal="true" aria-label="' + esc(m.title) + '"><h3>' + esc(m.title) + '</h3><div>' + m.body + '</div><div class="row">' +
     m.actions.map(a => '<button class="btn ' + (a.cls || '') + '" data-a="' + a.act + '">' + esc(a.label) + '</button>').join('') + '</div></div></div>';
 }
 const pageHead = (kicker, title, sub) => '<div class="page-h"><div class="lab">' + kicker + '</div><h1>' + title + '</h1>' + (sub ? '<p class="sub">' + sub + '</p>' : '') + '</div>';
@@ -4488,7 +4513,7 @@ function homeView() {
   const c = coachText(ts, r), goAct = c.go[1].indexOf('topic:') === 0 ? 'data-a="topic" data-id="' + c.go[1].slice(6) + '"' : 'data-a="nav" data-v="' + c.go[1] + '"';
   let h = pageHead('Dashboard', 'Welcome back');
   if (sess) h += '<div class="banner row between" style="margin-bottom:16px"><div><b>' + (sess.kind === 'mock' ? 'Mock exam' : 'Practice session') + ' in progress</b><div class="small muted">' + esc(sess.label) + ' · ' + Object.keys(sess.ans).length + '/' + sess.qids.length + ' answered · ' + fmtTime(sess.elapsed) + ' elapsed</div></div><button class="btn primary sm" data-a="resume">Resume</button></div>';
-  h += '<div class="coach"><div class="row lab" style="color:var(--warn)">' + icon('info') + ' Study coach</div><p>' + esc(c.t) + '</p><button class="btn sm" ' + goAct + '>' + esc(c.go[0]) + ' ' + icon('arrow') + '</button> <button class="btn sm ghost" style="margin-left:6px" data-a="nav" data-v="coach">Open the full coach →</button></div>';
+  h += '<div class="coach"><div class="row lab" style="color:var(--warn)">' + icon('info') + ' Study coach</div><p>' + esc(c.t) + '</p><button class="btn sm" ' + goAct + '>' + esc(c.go[0]) + ' ' + icon('arrow') + '</button> <button class="btn sm ghost" data-a="nav" data-v="coach">Open the full coach →</button></div>';
   if (!store.guideSeen && !A.length) h += '<div class="banner row between" style="margin-bottom:16px"><div><b>New here?</b><div class="small muted">A one-minute guide shows how the app works and where to start.</div></div><div class="row"><button class="btn primary sm" data-a="open-guide">How to use the app</button><button class="btn ghost sm" data-a="guide-dismiss">Dismiss</button></div></div>';
   h += sponsorBanner('');
   h += '<div class="dgrid" style="margin-top:18px"><div class="stack">';
@@ -4606,7 +4631,7 @@ function mockView() {
   let h = pageHead('Mock exam', 'Choose your exam', 'Follows the five CET parts in order: English Proficiency, Reading Comprehension, Science Process Skills, Quantitative Skills and Abstract Thinking Skills. Each part is drawn at random from the question bank.') + '<div class="setup stack">';
   if (sess) h += '<div class="banner row between"><div><b>You have an exam in progress</b><div class="small muted">' + esc(sess.label) + ' · ' + Object.keys(sess.ans).length + '/' + sess.qids.length + ' answered</div></div><div class="row"><button class="btn primary sm" data-a="resume">Resume</button><button class="btn sm danger" data-a="discard">Discard</button></div></div>';
   h += '<div class="card"><div class="lab" style="margin-bottom:8px">Format</div><div class="fmt">' + Object.keys(FORMATS).map(k => { const n = SECTIONS.reduce((a, x) => a + Math.max(1, Math.round(x.n * FORMATS[k].f)), 0), m = SECTIONS.reduce((a, x) => a + Math.max(1, Math.round(x.min * FORMATS[k].f)), 0); return '<button class="' + (ui.mock.format === k ? 'on' : '') + '" data-a="mock-format" data-id="' + k + '"><b>' + FORMATS[k].name + '</b><span>' + n + ' questions · ~' + hm(m) + '</span></button>'; }).join('') + '</div>' +
-    '<div class="lab" style="margin:20px 0 4px">Sections</div>' + plan.map((x, i) => '<div class="mrow"><span>' + (i + 1) + '. ' + esc(x.name) + '<div class="small muted">' + avail(x) + (x.note && ui.mock.format === 'full' ? ' · ' + esc(x.note) : '') + '</div></span><span class="muted">' + x.n + ' questions</span><span class="muted mono">' + x.min + ' min</span></div>').join('') +
+    '<div class="lab" style="margin:20px 0 4px">Sections</div>' + plan.map((x, i) => '<div class="mrow"><span><b>' + esc(x.name) + '</b>' + '<div class="small muted">' + avail(x) + (x.note && ui.mock.format === 'full' ? ' · ' + esc(x.note) : '') + '</div></span><span class="muted">' + x.n + ' questions</span><span class="muted mono">' + x.min + ' min</span></div>').join('') +
     '<div class="mrow tot"><span>Total</span><span>' + tot + ' questions</span><span class="mono">' + hm(mins) + '</span></div>' +
     '<div class="lab" style="margin:20px 0 4px">Before you begin</div><ul class="bul"><li>Every mock is a new random set: stored questions you haven’t seen come first, and numerical, vocabulary, analogy, general-information and logic questions are generated fresh with new numbers and words.</li><li>Elapsed time is tracked from the first question. It pauses if you leave this tab, and you can resume later.</li><li>Parts run in the official order. Abstract Thinking questions use shapes, and Science Process Skills mixes method questions with science content.</li><li>Item counts and times per part are assumptions (a full mock is 294 items and about 4 hours 15 minutes), not official figures. Reading passages come from the stored bank.</li></ul>' +
     '<div class="row" style="margin-top:16px"><button class="chip ' + (ui.mock.enforce ? 'on' : '') + '" data-a="mock-enforce">' + (ui.mock.enforce ? '✓ ' : '') + 'Enforce time limit (' + hm(mins) + ', auto-submit)</button><button class="chip ' + (ui.mock.gi ? 'on' : '') + '" data-a="mock-gi">' + (ui.mock.gi ? '✓ ' : '') + 'Add General Information (extra, not one of the five CET parts)</button></div>' +
@@ -4716,7 +4741,7 @@ function analyticsView() {
     '<div class="stat"><span class="lab">Accuracy</span><b>' + (totalN ? pct(totalC, totalN) + '<small>%</small>' : '—') + '</b><span class="s">all-time · ' + totalN + ' answers</span></div></div>';
   h += '<div class="card" style="margin-top:18px"><div class="row between"><div><h2>Score over time</h2><p class="small muted" style="margin:2px 0 0">Score of each session, against your target.</p></div><div class="rngs">' + [[10, 'Last 10'], [20, 'Last 20'], [0, 'All']].map(([v, l]) => '<button class="' + (rangeN === v ? 'on' : '') + '" data-a="an-range" data-n="' + v + '">' + l + '</button>').join('') + '</div></div>' +
     '<div style="margin-top:10px">' + (scores.length ? lineChart(scores, T) : '<p class="muted" style="padding:30px 0;text-align:center">Complete a session to see your trend.</p>') + '</div></div>';
-  h += '<div class="card" style="margin-top:18px"><div class="row between"><div><h2>Topic mastery</h2><p class="small muted" style="margin:2px 0 0">Accuracy across all 14 topics, against your target.</p></div><div class="legend"><i style="background:var(--brand)"></i>You <i style="background:var(--gold);margin-left:8px"></i>Target</div></div><div style="max-width:640px;margin:8px auto 0">' + radar(values, T) + '</div></div>';
+  h += '<div class="card radar-card" style="margin-top:18px"><div class="row between"><div><h2>Topic mastery</h2><p class="small muted" style="margin:2px 0 0">Accuracy across all 14 topics, against your target.</p></div><div class="legend"><i style="background:var(--brand)"></i>You <i style="background:var(--gold);margin-left:8px"></i>Target</div></div><div style="max-width:640px;margin:8px auto 0">' + radar(values, T) + '</div></div>';
   h += '<div class="card" style="margin-top:18px"><h2>Topic performance</h2><p class="small muted" style="margin:2px 0 8px">Based on every question you actually answered. Pace is your average time per question.</p><div class="trow lab"><span>Topic</span><span class="pc">Pace / question</span><span>Mastery</span></div>';
   SUBJECTS.forEach(s => {
     h += '<div class="h-' + s.hue + '"><div class="lab" style="color:var(--h);padding:12px 0 2px">' + esc(s.name) + '</div>';
@@ -4963,6 +4988,11 @@ document.addEventListener('click', e => {
     case 'guide-acc': ui.guideOpen[d.k] = !ui.guideOpen[d.k]; render(); break;
     case 'open-guide': store.guideSeen = true; save(); go('guide'); break;
     case 'guide-dismiss': store.guideSeen = true; save(); render(); break;
+    case 'more': {
+      const items = NAV.filter(n => !['home', 'review', 'mock', 'practice'].includes(n[0])), desc = { history: 'Past sessions and results', analytics: 'Trends and topic mastery', coach: 'Study plan and techniques', philsca: 'Separate PhilSCAAT mock and sheets', guide: 'Quick guide and FAQs' };
+      ui.modal = { title: 'More', cls: 'more', body: '<div class="more-list">' + items.map(([v, l, ic]) => '<button class="more-item" data-a="nav" data-v="' + v + '">' + icon(ic) + '<span><b>' + l + '</b><small>' + (desc[v] || '') + '</small></span></button>').join('') + '</div><div class="more-foot">' + contactLink('Suggestions? Message the Crema page', 'sp-handle') + '<button class="btn ghost sm" data-a="reset">Reset progress</button></div>', actions: [{ label: 'Close', act: 'modal-close' }] };
+      renderModal(); break;
+    }
     case 'idx-subj': ui.idxSubj = d.id; render(); break;
     case 'acc': { const t = SHEET[ui.topicId], o = openOf(t); o[d.i] = !o[d.i]; render(); break; }
     case 'acc-all': { const t = SHEET[ui.topicId], o = openOf(t), accs = t.blocks.map((b, i) => [b, i]).filter(x => isAcc(x[0])), all = accs.every(x => o[x[1]]); accs.forEach(x => { o[x[1]] = !all; }); render(); break; }
